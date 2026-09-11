@@ -59,6 +59,11 @@ const config = {
         },
         items: [
 		{
+		  to:       '/regions',
+		  label:    'Region Map',
+		  position: 'left'
+		},
+		{
 		  href:     'https://signal.group/#CjQKIG5-o6UUXvto66c1wN4fbinuguy614cJtRPmMxUA6JWyEhBKp6Q70OkA2MpcjsBYU1r9',
 		  label:    'Signal',
 		  position: 'right'
