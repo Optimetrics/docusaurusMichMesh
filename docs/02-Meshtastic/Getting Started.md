@@ -1,109 +1,75 @@
 ---
 sidebar_label: Getting Started
 ---
+# Getting Started
+
+From an unopened radio to your first message. Everything here works anywhere
+in the world; the Michigan-specific parts (channels, MQTT, which role to pick)
+are on [Michigan Meshtastic Settings](./Michigan%20Settings.md),
+and this page sends you there when it's time.
+
 ## Wait a minute, this is confusing!
 Yeah, there are some terms that get used differently depending on where they are used. Freq channels are also called channel slots or just channels, but general chat channels are also called channels? Yeah, it's a mess. Organic growth in the app and documentation have made things confusing. Don't worry about asking questions if you are unsure - we all had to figure it out and most of us are pretty friendly about answering questions.
 
+## 1. Get a device
+
+Any Meshtastic-compatible LoRa radio for the US 915 MHz band. If you don't
+have one yet, the [Meshtastic overview](./index.md#what-nodes-should-i-get)
+lists what people here actually carry, mount in cars, and put on rooftops.
+Ask on Discord before you buy; what's working well changes.
+
+:::warning
+Never power on a LoRa radio without an antenna attached. It can permanently
+damage the transmitter.
+:::
+
+## 2. Flash the firmware
+
+Use the [Meshtastic Web Flasher](https://flasher.meshtastic.org) from Chrome
+or Edge (it needs Web Serial). Plug the device in over a data cable, pick your
+board, pick the latest stable firmware, and flash. Most devices come with
+Meshtastic already on them; flashing anyway gets you current firmware.
+
+Updating later is easier — see [OTA Updating](./OTA_Meshtastic_Updates.md).
+
+## 3. Install the app and pair
+
+Install the Meshtastic app for [Android](https://play.google.com/store/apps/details?id=com.geeksville.mesh)
+or [iOS](https://apps.apple.com/us/app/meshtastic/id1586432531). Pair with
+the device over Bluetooth. If the device has a screen, the pairing PIN shows
+there; if not, the default is `123456`.
+
+## 4. Set your region and preset
+
+In the app: **Radio Configuration → LoRa**.
+
+| Setting | Value |
+| --- | --- |
+| Region | `US` |
+| Modem preset | `LongFast` |
+
+That's the Michigan default. Leave the frequency slot alone. Save, and the
+device reboots on the right frequency.
+
+## 5. Set your name
+
+**Radio Configuration → User**: a long name (what people see) and a 4-character
+short name. Save.
+
+## 6. Join the Michigan network
+
+You're on the air, but only on the default channel. To reach everyone else in
+the state — and to show up on the maps — go to
+[Michigan Meshtastic Settings](./Michigan%20Settings.md) and:
+
+- add the `Michigan` channel (and your regional one)
+- set up MQTT with the `msh/US/MI` topic
+- pick the right device role for where the node lives
+
+## 7. Say hello
+
+Send a message on the `Michigan` channel and come say hi on
+[Discord](https://discord.gg/3A5RREcBcc) so someone can confirm they heard you.
+
 ## Do I need to change frequency/channel number in order to connect with other people?
 Most likely, no. The standard `LongFast` channel preset will cover your area. Some people are playing with using faster (shorter range) and slower (longer range) channels, but this is usually coordinated and not used long term.
-
-## MQTT
-If you don't already have an MQTT gateway on your mesh or if you are a mobile node, you may want to setup an MQTT gateway.
-You likely do *not* want to use the `msh/US` topic, so let's setup the `msh/US/MI` topic. 
-
-### To Join the Michigan Meshtastic MQTT Topic
-
-1. iOS: Go to >config>Module configuration - Android: ☰ > Radio Configuration
-2. go to LoRa, enable `Ok to MQTT`, click `Send`
-3. Click `MQTT`
-4. Enable `MQTT`
-* If you want to use the MichMesh MQTT server (which is connected to the public Meshtastic MQTT server), change the server name to `mqtt.michmesh.net`. The username/password are the same - `meshdev`/`large4cats`
-5. Scroll to root Topic
-6. Paste `msh/US/MI`
-7. Enable Proxy to Client - skip this step if you're using a network connected node like and ESP32 on WiFi or a POE powered WisBlock (This adds a internet connection to the node if you have only Bluetooth connection and not wifi.)
-8. Click save
-The node will now reboot. 
-
-### Once it's up, it's time to enable uplink/downlink on your channels.
-
-1. iOS: Go to >config>channels - Android: ☰ > Radio Configuration > channels
-2. Click Primary/Default/LongFast Channel
-3. Enable Uplink (if you want to show up on the maps) 
-4. Enable Position if you want to send your location out over the mesh.
-5. click Save
-
-### Adding the extra channels
-> Michigan
-1. iOS: Go to >config>channels - Android: ☰ > Radio Configuration > channels
-2. Click `+`
-3. Channel Name: `Michigan`
-4. iOS: Key Size: `1 byte`
-5. PSK: `MA==` - this is case sensitive, it *must* be uppercase and without spaces.
-6. Enable Uplink/Downlink 
-7. Enable Position if you want to send your location out over the mesh.
-8. click save
-
-> Western Michigan
-1. iOS: Go to >config>channels - Android: ☰ > Radio Configuration > channels
-2. Click `+`
-3. Channel Name: `WMI`
-4. iOS: Key Size: `1 byte`
-5. PSK: `MA==` - this is case sensitive, it *must* be uppercase and without spaces.
-6. Enable Uplink/Downlink 
-7. Enable Position if you want to send your location out over the mesh.
-8. click save
-
-> Eastern Michigan
-1. iOS: Go to >config>channels - Android: ☰ > Radio Configuration > channels
-2. Click `+`
-3. Channel Name: `EMI`
-4. iOS: Key Size: `1 byte`
-5. PSK: `MA==` - this is case sensitive, it *must* be uppercase and without spaces.
-6. Enable Uplink/Downlink 
-7. Enable Position if you want to send your location out over the mesh.
-8. click save
-
-> Muskegon
-1. iOS: Go to >config>channels - Android: ☰ > Radio Configuration > channels
-2. Click `+`
-3. Channel Name: `Muskegon`
-4. iOS: Key Size: `1 byte`
-5. PSK: `MA==` - this is case sensitive, it *must* be uppercase and without spaces.
-6. Enable Uplink/Downlink 
-7. Enable Position if you want to send your location out over the mesh.
-8. click save
-
-> Northern LP
-1. iOS: Go to >config>channels - Android: ☰ > Radio Configuration > channels
-2. Click `+`
-3. Channel Name: `NMI`
-4. iOS: Key Size: `1 byte`
-5. PSK: `MA==` - this is case sensitive, it *must* be uppercase and without spaces.
-6. Enable Uplink/Downlink 
-7. Enable Position if you want to send your location out over the mesh.
-8. click save
-
-> Upper Peninsula 
-1. iOS: Go to >config>channels - Android: ☰ > Radio Configuration > channels
-2. Click `+`
-3. Channel Name: `YOOPER`
-4. iOS: Key Size: `1 byte`
-5. PSK: `MA==` - this is case sensitive, it *must* be uppercase and without spaces.
-6. Enable Uplink/Downlink 
-7. Enable Position if you want to send your location out over the mesh.
-8. click save
-
-> Washtenaw County
-1. iOS: Go to >config>channels - Android: ☰ > Radio Configuration > channels
-2. Click `+`
-3. Channel Name: `Washtenaw`
-4. iOS: Key Size: `1 byte`
-5. PSK: `MA==` - this is case sensitive, it *must* be uppercase and without spaces.
-6. Enable Uplink/Downlink 
-7. Enable Position if you want to send your location out over the mesh.
-8. click save
-
-#### After channel config
-click `Send` to push new channels to node.
-
-

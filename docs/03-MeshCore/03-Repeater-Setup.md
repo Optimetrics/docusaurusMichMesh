@@ -317,7 +317,11 @@ set rxdelay 3
 
 ## Common Repeater Settings
 
-Apply these after the first-run checklist, regardless of delay profile.
+Apply these after the first-run checklist, regardless of delay profile. These
+are the Michigan values; the short reference version, with the rest of what's
+Michigan-specific, is on [Michigan Settings](./02-Michigan-Settings.md), and
+the region-scoping plan is on
+[Regions and Scoping](./04-Regions-and-Scoping.md).
 
 ```bash path=null start=null
 set path.hash.mode 1
