@@ -4,68 +4,85 @@ sidebar_label: Intro
 
 # Michigan Mesh
 
-Welcome to MichMesh — a community effort to bring free, off-grid mesh
-networking to Michigan.
-
-Before you pick a mesh system, it helps to know what a mesh network
-actually *is* — because once you get this part, the differences between
-the systems on this site will make a lot more sense.
+Welcome to MichMesh, a community effort to bring free, off-grid mesh
+networking to Michigan. This page explains what a mesh network is in about
+two minutes, then points you at the system that fits what you want to do.
 
 ## The Basic Idea
 
-Normally, your phone talks to a cell tower, and the cell tower talks to the
-internet. No tower, no signal. Mesh networking cuts the tower out entirely.
+Normally your phone talks to a cell tower, and the tower talks to the
+internet. No tower, no signal. Mesh cuts the tower out. Small radios
+("nodes") talk directly to each other, and if yours can't reach the person
+you're messaging, it hands the message to a closer node, which hands it to
+another, until it arrives. Each handoff is a "hop."
 
-Instead, small radios ("nodes") talk directly to each other. If your node
-can't reach the person you're messaging, it doesn't give up — it hands the
-message to another node closer to them, which hands it to another, and so
-on until it arrives. Every node that helps pass a message along is doing
-one "hop."
+## Nodes, Repeaters, and Range
 
-## Nodes and Repeaters
+A **node** is any device on the network: in your pocket, in your car, on a
+windowsill. A **repeater** is a node placed somewhere high with a clear view,
+whose job is relaying other people's messages. These radios reach for miles,
+but hills, buildings, and thick woods block them like any other radio, so
+line of sight matters and height beats transmit power. Every hop adds a
+little delay and a little risk, which is why where repeaters sit matters.
 
-- **Node** — any device on the network. Could be in your pocket, mounted in
-  your car, sitting on a windowsill. If it can send and receive, it's a node.
-- **Repeater** — a node placed somewhere high with a clear view of the area
-  (a roof, a silo, a hilltop), whose main job is relaying other people's
-  messages rather than being someone's personal radio. More repeaters in
-  good spots = a bigger, more reliable network for everyone.
+## Who Does the Repeating
 
-## Range and Hops
+When a node hears a message that isn't for it, does it pass it along? This
+is the biggest difference between the systems on this site.
 
-These radios can talk for miles, but they're not magic — hills, buildings,
-and thick woods block or weaken the signal just like they would for any
-other radio. Line of sight matters. That's why repeaters go up high: height
-beats raw transmit power almost every time.
+- **Every node repeats.** A handful of radios with no setup form a working
+  network on the spot, anywhere. The cost is noise: as the mesh grows, more
+  airtime goes to everyone repeating everyone.
+- **Only repeaters repeat.** Personal radios listen and talk but don't
+  forward. The network stays quiet and reliable as it grows, but there has
+  to be a repeater in range for a message to go anywhere.
 
-Every hop adds a small delay and a small chance the message doesn't make
-it through. A message that takes 2 hops to arrive is faster and more
-reliable than one that needs 6. This is a big part of why *where*
-repeaters sit — and how many you need — matters so much.
+The first is built for dropping into a place with nothing set up yet; the
+second is built for permanent coverage of a city or region. Each system's
+section explains how its routing works in more detail.
 
-## How Your Message Actually Finds Its Way
+## The Three Systems in Michigan
 
-This is where mesh systems start to differ from each other, and it's worth
-understanding the two basic approaches before you compare them:
+Pick by what you want to do, not by name. Plenty of people run more than one.
 
-- **Flood routing** — a node that hears a message just repeats it to
-  everyone in range, and they repeat it to everyone in range, and so on,
-  until it's gone about as far as it's allowed to. Nobody has to plan
-  anything ahead of time; a handful of nodes with no setup can form a
-  working network on the spot. The tradeoff: as more nodes join, all that
-  repeating starts competing for the same airtime.
-- **Directed routing** — nodes build up an understanding of the network's
-  shape and send messages along a specific known path instead of shouting
-  to everyone. It's more efficient and scales better, but it works best
-  once there's already some real structure in place — repeaters that are
-  up, staying up, and covering the area.
+### MeshCore
 
-Neither approach is "wrong" — they're built for different situations, which
-is exactly why the systems on this site make different tradeoffs depending
-on whether you're dropping into an area with nothing set up yet, or
-building toward permanent regional coverage.
+Only repeaters repeat. Most of the new repeater coverage going up in
+Michigan right now is MeshCore. Best for everyday messaging across a city or
+region, and for anyone who wants to put up a repeater and extend the
+network.
+
+[MeshCore section →](./03-MeshCore/index.md)
+
+### Meshtastic
+
+Every node repeats. Works anywhere, including places with no repeaters at
+all, and has the widest range of off-the-shelf hardware. Best for search and
+rescue, camping and hiking groups, and bringing the whole network with you.
+
+[Meshtastic section →](./02-Meshtastic/index.md)
+
+### Reticulum
+
+A networking layer that runs over LoRa, packet radio, WiFi, the internet, or
+several at once, carrying text, voice, files, and services. Powerful, and
+technical: expect config files and a computer in the loop. Right if you want
+to build and run things on a mesh, wrong if you want to pair a radio and
+start texting.
+
+[Reticulum section →](./04-Reticulum/index.md)
+
+## Which One?
+
+- **Talk to people near you day to day, and be part of Michigan's
+  coverage** — MeshCore.
+- **Carry a network into places that have none** — Meshtastic.
+- **Build and run services over a mesh** — Reticulum.
+
+Ask on the [Contact page](./08-Contact.md) what's already on the air where
+you live before you buy anything.
 
 ## Get Involved
 
-Please test the howtos and send [yNos](Contact) any updates or screenshots
-as things change.
+Test the howtos and send [yNos](./08-Contact.md) updates or screenshots as
+things change.
