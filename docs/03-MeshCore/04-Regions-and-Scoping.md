@@ -106,16 +106,16 @@ midwest
     └── mi-upper
 ```
 
-Only the tags in the table below are live. The rest of the tree shows where
-new local tags slot in: a local group picks its lowest-level tag and the
-parent chain above it is already defined.
+Only `azo` is live today. The rest of the tree — including `grr` — shows
+where new local tags slot in: a local group picks its lowest-level tag and
+the parent chain above it is already defined.
 
 ### Adopted
 
 | Tag | Scope | Status |
 | --- | --- | --- |
 | `midwest`, `mi`, `mi-west`, `azo` | Kalamazoo repeaters | **Live.** Kalamazoo has completed step 1. |
-| `midwest`, `mi`, `mi-west`, `grr` | Grand Rapids / Kent County repeaters | **In progress.** Being added repeater by repeater. |
+| `midwest`, `mi`, `mi-west`, `grr` | Grand Rapids / Kent County repeaters | **Not started.** Recommended next step for Grand Rapids/Kent County operators. |
 
 Step 2 (the unscoped cap) is not yet enabled on any repeater. Step 3 is not planned.
 
@@ -307,7 +307,7 @@ including strict forwarding.
 
 ## Change history
 
-- 2026-09 — Page created. Kalamazoo live on `azo`; Grand Rapids in progress on
-  `grr`. Unscoped cap proposed at 3 on every repeater, tall sites first,
-  following the MeshCore docs recommendation; sparse-area carve-out noted.
-  Strict forwarding not planned.
+- 2026-09 — Page created. Kalamazoo live on `azo`; Grand Rapids recommended
+  to start tagging on `grr`. Unscoped cap proposed at 3 on every repeater,
+  tall sites first, following the MeshCore docs recommendation; sparse-area
+  carve-out noted. Strict forwarding not planned.
