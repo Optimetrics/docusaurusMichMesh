@@ -58,6 +58,8 @@ const config = {
           srcDark: 'img/michmesh-logo-dark.svg',
         },
         items: [
+		{ to: '/docs/intro',   label: 'Docs',        position: 'left' },
+		{ href: 'https://github.com/MichMesh/docusaurus', label: 'GitHub', position: 'right' },
 		{
 		  href:     'https://signal.group/#CjQKIG5-o6UUXvto66c1wN4fbinuguy614cJtRPmMxUA6JWyEhBKp6Q70OkA2MpcjsBYU1r9',
 		  label:    'Signal',
