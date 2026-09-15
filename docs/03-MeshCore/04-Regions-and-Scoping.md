@@ -102,7 +102,7 @@ midwest
     │   └── azo        Kalamazoo
     ├── mi-east
     ├── mi-north
-    └── up
+    └── upper
 ```
 
 Only the tags in the table below are live. The rest of the tree shows where
