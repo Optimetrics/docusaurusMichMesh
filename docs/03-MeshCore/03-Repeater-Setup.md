@@ -15,7 +15,7 @@ So you've decided to run a repeater. Nice. This guide gets a MeshCore repeater o
 
 ## Before You Start
 
-- **Flash Repeater firmware** via the [web flasher](https://flasher.meshcore.io/). Use a Chromium-based browser, since the flasher needs the Web Serial API. This guide requires firmware **1.16 or later**; if a repeater is running anything older, upgrade it first.
+- **Flash Repeater firmware** via the [web flasher](https://flasher.meshcore.io/). Use a Chromium-based browser, since the flasher needs the Web Serial API. Use the latest release. This guide requires firmware **1.16 or later**; if a repeater is running anything older, upgrade it first.
 - **Mount high with line of sight** and use a real external antenna. Elevation and antenna quality matter more than transmit power.
 - **Use a stable power supply**: wall adapter, POE, or solar with battery backup. Avoid bus-powered USB hubs.
 - **Connect over USB** with the Web Serial console at [config.meshcore.io](https://config.meshcore.io).
@@ -30,7 +30,7 @@ The MeshCore CLI uses **spaces**, not `=`. Typing `set path.hash.mode = 1` can s
 
 ## Quick Start {#quick-start}
 
-The full setup for a new repeater on firmware 1.16 or later. Replace everything in `<angle brackets>`, and swap the region line for your area (see [Pick Your Regions](#pick-your-regions)). Each block links to a step below that explains it.
+The full setup for a new repeater on firmware 1.16 or later. Replace everything in `<angle brackets>`; for the region line, see [Pick Your Regions](#pick-your-regions) and leave off `<local_region>` if your area doesn't have one. Each block links to a step below that explains it.
 
 ```bash path=null start=null
 # 1. Confirm firmware and radio (expect role = Repeater, 910.525 / 62.5 / 7 / 5)
@@ -54,9 +54,9 @@ set agc.reset.interval 500
 set dutycycle 100
 set loop.detect moderate
 
-# 4. Regions (Grand Rapids example: use your own subregion / local region)
+# 4. Regions: your own chain, e.g. mi-east for Detroit or mi-west azo for Kalamazoo
 #    Define them only. Scoping is on hold: no region default, no unscoped cap.
-region def midwest mi mi-west grr
+region def midwest mi <subregion> <local_region>
 region save
 
 # 5. Delay profile (SUBURBAN shown: pick yours from Delay Profiles)
@@ -164,14 +164,16 @@ set loop.detect moderate
 
 ### 7. Set Regions {#step-7-regions}
 
-Define the full region ancestry for the area the repeater serves. See [Regions](#regions) for what to carry.
+Define the full region ancestry for the area the repeater serves. See [Regions](#regions) for what to carry, or let the [Region Configurator](./05-Region-Configurator.mdx) work out the command for your area.
 
 ```bash path=null start=null
 region def midwest mi <subregion> <local_region>
 region save
 ```
 
-Leave off `<local_region>` if your area doesn't have one yet. Don't set a default scope or cap unscoped floods: [scoping is on hold](#regions-on-hold). If you already did, [undo it](#undo-scoping).
+Leave off `<local_region>` if your area doesn't use one. Don't set `region default` or cap unscoped messages: [scoping is on hold](#regions-on-hold). If you already did, [undo it](#undo-scoping).
+
+Using the **Regions** panel in config.meshcore.io instead of typing commands? Leave **Default region** empty, keep **Allow Flood** ticked on every row, including unscoped traffic, and leave the unscoped flood limit at 64.
 
 ### 8. Pick a Delay Profile {#step-8-delay}
 
@@ -202,45 +204,50 @@ region default
 get flood.max.unscoped
 ```
 
-`region default` should answer `default scope is <null>` and `get flood.max.unscoped` should answer `> 64`, the firmware default.
+`region` should print your chain with every line ending in `F`, `region default` should answer `default scope is <null>`, and `get flood.max.unscoped` should answer `> 64`, the firmware default.
 
 ## Regions {#regions}
 
-Regions let traffic be scoped so it only floods as far as it's useful. A repeater forwards scoped traffic only for regions it carries, so the regions you configure decide what your repeater will pass on. Michigan's region names and county assignments come from the draft [Michigan MeshCore Regions RFC](https://github.com/MichMesh/MC-Regional-Infrastructure-Planning), developed by Michigan operators.
+Regions let a sender scope a message so it only floods as far as it's useful. A repeater passes a scoped message only if it carries that message's region, and passes unscoped messages, nearly everything today, whatever regions it carries. [How Regions Work](./04-Regions-and-Scoping.md#how-regions-work) explains it in plain terms. Michigan's region names come from the draft [Michigan MeshCore Regions RFC](https://github.com/MichMesh/MC-Regional-Infrastructure-Planning) (RFC-001), developed by Michigan operators, and the county assignments from its [Addendum A](https://github.com/MichMesh/MC-Regional-Infrastructure-Planning/blob/main/rfc/0001-addendum-a-scoping-and-county-reference.md).
 
 ### Scoping Is On Hold {#regions-on-hold}
 
 :::info
-Some repeaters had already started scoping traffic and others hadn't, so operators agreed to keep the mesh open for now. Until the group decides otherwise:
+Some repeaters had already set `region default` or capped unscoped messages and others hadn't, so operators agreed to keep the mesh open for now. Until the group decides otherwise:
 
 - **Define regions on repeaters** with `region def` and `region save`, as below.
 - **Don't** set `region default`, set `flood.max.unscoped`, or use `region denyf`.
-- **Don't** set a default scope or channel scopes on companions.
+- **Companions** don't need a scope. Experimenting with a scoped channel is fine; see [Region Scope](./01-Getting-Started.md#set-your-region).
 
-Already changed something? See [Undo Scoping Changes](#undo-scoping) for repeaters and [Undo Region Scoping](./01-Getting-Started.md#undo-region-scoping) for companions.
+Already changed something? See [Undo Scoping Changes](#undo-scoping) for repeaters and [Clear a Region Scope](./01-Getting-Started.md#undo-region-scoping) for companions.
+
+See [Regions and Scoping](./04-Regions-and-Scoping.md) for why Michigan is defining regions and the plan for when scoping resumes.
 :::
 
 ### The Michigan Hierarchy {#region-hierarchy}
 
 ```text
 midwest
-└── mi
-    ├── mi-west
-    │   ├── grr        Grand Rapids
-    │   ├── azo        Kalamazoo
-    │   └── mkg        Muskegon (example)
-    ├── mi-central
-    │   ├── thumb
-    │   └── midstate
-    ├── mi-east
-    │   └── det        Detroit (example)
-    ├── mi-north       Northern Lower Peninsula
-    │   └── tvc        Traverse City (example)
-    └── mi-upper       Upper Peninsula
-        └── mqt        Marquette (example)
+├── mi
+│   ├── mi-west
+│   │   ├── grr        Grand Rapids
+│   │   ├── mkg        Muskegon (example)
+│   │   └── azo        Kalamazoo
+│   ├── mi-central
+│   │   ├── thumb
+│   │   └── midstate
+│   ├── mi-east
+│   │   └── det        Detroit (example)
+│   ├── mi-north       Northern Lower Peninsula
+│   │   └── tvc        Traverse City (example)
+│   └── mi-upper       Upper Peninsula
+│       └── mqt        Marquette (example)
+├── il                 Illinois (example)
+├── wi                 Wisconsin (example)
+└── in                 Indiana (example)
 ```
 
-Local regions marked *example* aren't settled yet. Check with operators near you before carrying one, and if your area doesn't have a local region, stop at the subregion.
+`grr` and `azo` are the local regions RFC-001 defines so far. `thumb` and `midstate` are named but not settled, and entries marked *example* show where other local regions and neighboring states would slot in. Check with operators near you before carrying anything beyond your subregion, and if your area doesn't use a local region, stop at the subregion.
 
 ### Pick Your Regions {#pick-your-regions}
 
@@ -254,7 +261,7 @@ A repeater carries **every level** above it: `midwest`, `mi`, its subregion, and
 | `mi-north` | Alcona, Alpena, Antrim, Benzie, Charlevoix, Cheboygan, Clare, Crawford, Emmet, Grand Traverse, Kalkaska, Lake, Leelanau, Manistee, Mason, Mecosta, Missaukee, Montmorency, Osceola, Oscoda, Otsego, Presque Isle, Roscommon, Wexford |
 | `mi-upper` | Alger, Baraga, Chippewa, Delta, Dickinson, Gogebic, Houghton, Iron, Keweenaw, Luce, Mackinac, Marquette, Menominee, Ontonagon, Schoolcraft |
 
-The county table is a starting point, not a border. A repeater carries the subregion of the area it **actually covers**: a hilltop site in Ionia County whose footprint is mostly Grand Rapids belongs in `mi-west` and `grr`. If operators in your area have agreed on something different, that agreement wins.
+The [region map](./04-Regions-and-Scoping.md#the-map) shows the same assignments. The county table is a starting point, not a border. A repeater carries the subregion of the area it **actually covers**: a hilltop site in Ionia County whose footprint is mostly Grand Rapids belongs in `mi-west` and `grr`. If operators in your area have agreed on something different, that agreement wins.
 
 Examples:
 
@@ -293,25 +300,24 @@ get flood.max.unscoped
 region
 ```
 
-Expect `default scope is <null>`, `> 64`, and a tree where every line, including the top `*` line, ends in `F`:
+Expect `default scope is <null>`, `> 64`, and a tree where every line, including the top `*^` line, ends in `F`:
 
 ```text
-* F
+*^ F
  midwest F
   mi F
-   mi-west F
-    grr F
+   mi-east F
 ```
 
 ### Default Scope (On Hold) {#region-default}
 
-`region default <region>` would scope the repeater's own adverts to that region. It's [on hold](#regions-on-hold), so don't set it.
+`region default <region>` would scope the repeater's own adverts to that region. It never changes the scope of messages the repeater passes on. It's [on hold](#regions-on-hold), so don't set it.
 
 ### Unscoped Cap (On Hold) {#flood-max-unscoped}
 
-`set flood.max.unscoped <hops>` would drop traffic with no region once it had travelled that many hops. It's [on hold](#regions-on-hold), so leave it at the firmware default of `64`.
+`set flood.max.unscoped <hops>` would drop unscoped messages once they had travelled that many hops. It's [on hold](#regions-on-hold), so leave it at the firmware default of `64`.
 
-Scoped traffic only travels through repeaters that carry its region, so a mesh where some repeaters scope and others don't loses messages in between. That's why these wait until everyone moves together.
+Capping unscoped messages pushes anything meant to travel far onto scoped messages, and a scoped message only travels through repeaters that carry its region. Until every repeater carries its regions, those messages get lost in between, which is why the cap and `region default` wait until everyone moves together.
 
 ### Repeaters on a Boundary {#region-boundary}
 
@@ -319,8 +325,11 @@ A repeater can carry more than one subregion. A site on the `mi-west` / `mi-cent
 
 - Carry a neighboring subregion only if you serve companions there. Hearing a neighbor's repeater on a good day isn't coverage.
 - A few deliberate bridges per boundary, announced in the group, beat every edge repeater quietly carrying both.
+
+A site on the `mi-west` / `mi-central` line defines both chains:
+
 ```bash path=null start=null
-region def midwest mi mi-west grr
+region def midwest mi mi-west
 region def midwest mi mi-central
 region save
 ```
@@ -562,7 +571,7 @@ get flood.max.unscoped
 
 Every line of `region` should end in `F`, `region default` should be `<null>`, and `flood.max.unscoped` should be `64`. Anything else is left over from scoping; see [Undo Scoping Changes](#undo-scoping).
 
-From the app, **Discover Regions (Scan Local)** should show every nearby configured repeater reporting `mi` and its ancestry.
+From the app, **Discover Regions** (**Discover from repeaters…** in MeshCore Hardened) should list your repeater's regions, like `midwest`, `mi` and its subregion, as plain names. Only repeaters your radio hears directly answer, so if yours is missing, wait a few minutes and try again.
 
 ### Check Location and Adverts {#audit-location}
 
