@@ -1,0 +1,27 @@
+---
+sidebar_label: Region Configurator
+---
+
+import RegionConfigurator from '@site/src/components/RegionConfigurator';
+
+# Region Configurator
+
+Pick where a repeater is and what firmware it runs, and get the `region` commands to paste into its console. It covers the same steps as [Set Regions](./03-Repeater-Setup.md#step-7-regions) in the Repeater Setup guide, worked out for your area.
+
+Scoping is [on hold](./03-Repeater-Setup.md#regions-on-hold), so the commands only define regions. They don't set the repeater's `region default` or cap unscoped messages, and there's nothing a companion needs to set.
+
+<RegionConfigurator />
+
+## Where the Answers Come From {#data}
+
+Everything the configurator knows comes from the [`data/` folder](https://github.com/MichMesh/MC-Regional-Infrastructure-Planning/tree/main/data) of the Michigan regions RFC, and it loads the latest version when you open this page, falling back to a built-in copy if it can't.
+
+- **Subregions** come from the county assignments in [RFC-001 Addendum A](https://github.com/MichMesh/MC-Regional-Infrastructure-Planning/blob/main/rfc/0001-addendum-a-scoping-and-county-reference.md), the same ones as the table in [Pick Your Regions](./03-Repeater-Setup.md#pick-your-regions) and the [region map](./04-Regions-and-Scoping.md#the-map).
+- **Local regions** come from the RFC's list. Proposed ones show up as a note, so nobody picks a clashing name. If your area uses one that isn't listed, propose it below.
+- **The county is a starting point, not a border.** A repeater carries the regions of the area it actually covers, which is why you can change the subregion and local region after picking a county.
+
+## Propose a Local Region {#propose}
+
+Local regions belong to the communities that use them. If your area needs one, [open a local region proposal](https://github.com/MichMesh/MC-Regional-Infrastructure-Planning/issues/new?template=local-region.yml) with the region name, the area, and the repeaters and operators that will carry it. Once it's agreed and added to the RFC's data, it shows up here within minutes. The [data README](https://github.com/MichMesh/MC-Regional-Infrastructure-Planning/blob/main/data/README.md#adding-a-local-region) walks through the steps.
+
+A town missing from the search works the same way: add it to [`places.json`](https://github.com/MichMesh/MC-Regional-Infrastructure-Planning/blob/main/data/places.json) in the RFC repo.

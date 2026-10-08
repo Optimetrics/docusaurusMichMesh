@@ -10,6 +10,9 @@
 - Every PR is built and checked automatically (see the **Checks** tab): broken links, broken anchors, unfilled placeholders and bad Reticulum hashes fail the check.
 - Once a PR is merged, GitHub Actions builds the site and commits `build/` to `master` ("Publish build for …"). The server pulls on GitHub's webhook and michmesh.com updates within a few minutes. Nobody needs to build or deploy by hand.
 
+## Region data
+The [Region Configurator](src/components/RegionConfigurator/README.md) reads Michigan's region data from the [regions RFC repo](https://github.com/MichMesh/MC-Regional-Infrastructure-Planning/tree/main/data), not from this repo. To add a local region or a town, change it there.
+
 ## How the site is served
 michmesh.com is served by nginx from `build/` in a checkout of `master` on the server. The listener in [`webhooks/`](webhooks/README.md) runs `git pull` when GitHub reports a push, which is why `build/` stays in git.
 - Commit your changes to `docs/` (or `src/`, `static/`) and open a Pull Request (PR). Don't commit `build/`; it's generated.
